@@ -48,7 +48,7 @@
     "eslint-plugin-react": "7.26.1",
     "eslint-plugin-react-hooks": "4.0.8",
     "eslint-webpack-plugin": "2.1.0",
-    "husky": "4.3.0",
+    "husky": "^7.0.4",
     "istanbul-reports": "3.0.2",
     "jest": "27.4.3",
     "jest-puppeteer": "6.0.2",
@@ -88,7 +88,7 @@
     "fix": "eslint --ext .js,.jsx,.ts,.tsx  --fix ./",
     "format": "prettier --write 'src/**/*.{ts,tsx,scss,css,json}'",
     "isready": "yarn format && yarn lint && yarn build",
-    "coverage": "yarn test -- --coverage",
+    "coverage": "yarn test -- --coverage --watchAll=false",
     "test:clean": "rimraf ./coverage",
     "test:e2e": "jest -c e2e/jest.config.js --env=puppeteer",
     "test:e2e-alone": "node e2e/puppeteer_standalone.js",
@@ -113,5 +113,38 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest": {
+    "coverageReporters": [
+      "json",
+      "text",
+      "html",
+      "lcov"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*/*.d.ts",
+      "!src/**/*/Loadable.{js,jsx,ts,tsx}",
+      "!src/**/*/types.ts",
+      "!src/**/store.ts",
+      "!src/index.tsx",
+      "!src/serviceWorker.ts",
+      "!<rootDir>/node_modules/",
+      "!**/templates/**",
+      "!**/template/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 50,
+        "lines": 50,
+        "statements": 50
+      }
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn format && yarn lint && yarn test:e2e && yarn coverage"
+    }
   }
 }

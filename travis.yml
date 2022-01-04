@@ -1,0 +1,19 @@
+language: node-js
+sudo: false
+node_js:
+  - "stable"
+branches:
+  only:
+    - main
+cache:
+  directories:
+    - node_modules
+before_install:
+  - npm update
+  - sudo apt-get update
+  - npm install --global http-server
+install:
+  - npm install
+  - npm build
+script:
+  - npm run coveralls
